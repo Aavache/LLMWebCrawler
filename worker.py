@@ -1,0 +1,48 @@
+import ray
+import requests
+from bs4 import BeautifulSoup
+from language_model import get_language_model
+from db import VectorDatabaseClient
+
+
+@ray.remote
+class WebCrawler:
+    """Web crawler class as a Ray actor"""
+    def __init__(self, max_depth: int, llm_model: str):
+        self.max_depth = max_depth
+
+        # Initialize Milvus connection
+        self.db_client = VectorDBClient(db_url)
+
+        # Initialize language model
+        self.language_model = get_language_model(llm_model)
+
+    def crawl(self, url, depth):
+        if depth > self.max_depth:
+            return
+
+        try:
+            # Fetch the webpage
+            response = requests.get(url)
+            if response.status_code == 200:
+                # Parse the HTML content
+                soup = BeautifulSoup(response.text, 'html.parser')
+
+                # Extract text from the webpage
+                text = soup.get_text()
+
+                # Generate BERT embeddings for the text
+                embeddings = self.language_model.text_to_embedding(text)
+
+                # Insert data into Milvus
+                self.db_client.insert(url, text, embeddings)
+
+                # Find and crawl child links
+                links = soup.find_all('a')
+                for link in links:
+                    child_url = link.get('href')
+                    if child_url and child_url.startswith('http'):
+                        self.crawl.remote(child_url, depth + 1)
+        except Exception as e:
+            print(f"Error crawling {url}: {str(e)}")
+

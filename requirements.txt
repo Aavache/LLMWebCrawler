@@ -1,0 +1,5 @@
+transformers==4.33.3
+ray==2.7.0
+bs4==0.0.1
+milvus==2.2.14
+requests==2.26.0
