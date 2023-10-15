@@ -1,6 +1,6 @@
 import argparse
-import pymilvus
 
+import pymilvus
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
@@ -15,6 +15,6 @@ if __name__ == "__main__":
 
         # List collections
         print("Here the list of collections: \n")
-        print(pymilvus.list_collections(timeout=None, using='default'))
+        print(pymilvus.list_collections(timeout=None, using="default"))
     except Exception as e:
         print(f"Error when listing collection: {e}")

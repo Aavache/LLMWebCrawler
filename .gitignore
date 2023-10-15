@@ -106,3 +106,6 @@ dmypy.json
 
 # Other
 .DS_Store
+
+# Temporary folder
+tmp/

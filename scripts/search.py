@@ -1,4 +1,5 @@
 import argparse
+
 import pymilvus
 
 from llm import MODEL_REGISTRY
@@ -30,7 +31,7 @@ if __name__ == "__main__":
 
     try:
         # Connect to Milvus DB
-        pymilvus.connections.connect("default", host=args.host, port=args.port) 
+        pymilvus.connections.connect("default", host=args.host, port=args.port)
 
         if not pymilvus.utility.has_collection(args.collection):
             raise Exception(f"Collection not found: {args.collection}")
@@ -42,13 +43,11 @@ if __name__ == "__main__":
         search_param["offset"] = args.offset
 
         print(f"Search results of the top-{args.topk}:")
-        print(collection.search(
-            anns_field=args.embed_col,
-            limit=args.topk,
-            collection=collection,
-            data=[embedding],
-            param=SEARCH_PARAMS
-        ))
+        print(
+            collection.search(
+                anns_field=args.embed_col, limit=args.topk, collection=collection, data=[embedding], param=SEARCH_PARAMS
+            )
+        )
 
         collection.release()
     except Exception as e:

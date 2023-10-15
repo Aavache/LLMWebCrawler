@@ -1,6 +1,6 @@
 import argparse
-import pymilvus
 
+import pymilvus
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()

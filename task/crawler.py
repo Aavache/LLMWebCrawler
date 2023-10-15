@@ -1,24 +1,32 @@
 import ray
 import requests
 from bs4 import BeautifulSoup
-from language_model import get_language_model
-from db import VectorDatabaseClient
+
+from db import VectorDBClient
+from llm import MODEL_REGISTRY
 
 
 @ray.remote
 class WebCrawler:
-    """Web crawler class as a Ray actor"""
-    def __init__(self, max_depth: int, llm_model: str):
-        self.max_depth = max_depth
+    """Web crawler class as a Ray actor."""
 
+    def __init__(
+            self, 
+            llm_model: str,
+            embedding_size: int, 
+            batch_size: int, 
+        ):
         # Initialize Milvus connection
-        self.db_client = VectorDBClient(db_url)
+        self.db_client = VectorDBClient(
+            embedding_size=embedding_size, 
+            batch_size=batch_size
+        )
 
         # Initialize language model
-        self.language_model = get_language_model(llm_model)
+        self.language_model = MODEL_REGISTRY[llm_model]()
 
-    def crawl(self, url, depth):
-        if depth > self.max_depth:
+    def crawl(self, url, depth, max_depth):
+        if depth > max_depth:
             return
 
         try:
@@ -26,7 +34,7 @@ class WebCrawler:
             response = requests.get(url)
             if response.status_code == 200:
                 # Parse the HTML content
-                soup = BeautifulSoup(response.text, 'html.parser')
+                soup = BeautifulSoup(response.text, "html.parser")
 
                 # Extract text from the webpage
                 text = soup.get_text()
@@ -38,11 +46,12 @@ class WebCrawler:
                 self.db_client.insert(url, text, embeddings)
 
                 # Find and crawl child links
-                links = soup.find_all('a')
+                links = soup.find_all("a")
                 for link in links:
-                    child_url = link.get('href')
-                    if child_url and child_url.startswith('http'):
-                        self.crawl.remote(child_url, depth + 1)
+                    child_url = link.get("href")
+                    if child_url and child_url.startswith("http"):
+                        self.crawl.remote(child_url, depth + 1, max_depth)
         except Exception as e:
             print(f"Error crawling {url}: {str(e)}")
+
 

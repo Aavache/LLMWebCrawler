@@ -1,6 +1,6 @@
 import argparse
-import pymilvus
 
+import pymilvus
 
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
@@ -10,7 +10,7 @@ if __name__ == "__main__":
 
     try:
         # Connect to Milvus DB
-        pymilvus.connections.connect("default", host=args.host, port=args.port) 
+        pymilvus.connections.connect("default", host=args.host, port=args.port)
 
         if not pymilvus.utility.has_collection(args.collection):
             raise Exception(f"Collection not found: {args.collection}")
