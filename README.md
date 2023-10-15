@@ -9,6 +9,20 @@ An scalable web crawler, here a list of the feature of this crawler:
 
 By saving the representations into a vector database, you can retrieve similar pages according to how close two vectors are. This is critical for a browser to retrieve the most relevant results.
 
+# CLI
+
+Run the crawler with the terminal:
+
+```sh
+$ python cli_crawl.py --help
+
+options:
+  -h, --help            show this help message and exit
+  -u INITIAL_URLS [INITIAL_URLS ...], --initial-urls INITIAL_URLS [INITIAL_URLS ...]
+  -lm LANGUAGE_MODEL, --language-model LANGUAGE_MODEL
+  -m MAX_DEPTH, --max-depth MAX_DEPTH
+```
+
 # API
 
 Host the API with `uvicorn` and `FastAPI`.
@@ -93,11 +107,10 @@ The worker node does not need to have the code implementation as the head node w
 ## Future features
 
 The current implementation is a PoC. Many improvements can be made:
-* API get entrypoint to search given text.
+* [Important] New entrypoint in the API to search similar URL given text.
 * Optimize search and API.
-* Storing more features in the vector DB.
-* Adding new LLMs and new chunking strategies with popular libraries, e.g. [LangChain](https://www.langchain.com/).
-
+* Adding new LLMs models and new chunking strategies with popular libraries, e.g. [LangChain](https://www.langchain.com/).
+* Storing more features in the vector DB, perhaps, generate summaries.
 
 ## Contributing
 
@@ -107,4 +120,5 @@ All issues and PRs are welcome 🙂.
 
 * [Ray Documentation](https://docs.ray.io/en/latest/ray-core/examples/gentle_walkthrough.html)
 * [Milvus](https://milvus.io/)
+* [FastAPI](https://fastapi.tiangolo.com/)
 * [Huggingface](https://huggingface.co/)
