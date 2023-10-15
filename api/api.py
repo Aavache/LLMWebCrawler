@@ -1,8 +1,9 @@
-import functools
-import ray
 import asyncio
+import functools
 from concurrent.futures import ThreadPoolExecutor
-from fastapi import FastAPI 
+
+import ray
+from fastapi import FastAPI
 
 from api.models import CrawlJob
 from api.utils import run_crawl
@@ -22,11 +23,12 @@ crawler = WebCrawler.remote()
 def crawl(request: CrawlJob):
     loop = asyncio.get_event_loop()
     try:
-        loop.run_in_executor(None, functools.partial(run_crawl, data={
-            'crawler': crawler,
-            'urls': request.urls,
-            'max_depth': request.max_depth
-        }))
+        loop.run_in_executor(
+            None,
+            functools.partial(
+                run_crawl, data={"crawler": crawler, "urls": request.urls, "max_depth": request.max_depth}
+            ),
+        )
 
     except Exception as e:
         return {"message": f"Error: {str(e)}"}

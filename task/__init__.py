@@ -1,1 +1,1 @@
-from task.crawler import * # noqa
+from task.crawler import *  # noqa

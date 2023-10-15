@@ -11,16 +11,13 @@ class WebCrawler:
     """Web crawler class as a Ray actor."""
 
     def __init__(
-            self, 
-            llm_model: str,
-            embedding_size: int, 
-            batch_size: int, 
-        ):
+        self,
+        llm_model: str,
+        embedding_size: int,
+        batch_size: int,
+    ):
         # Initialize Milvus connection
-        self.db_client = VectorDBClient(
-            embedding_size=embedding_size, 
-            batch_size=batch_size
-        )
+        self.db_client = VectorDBClient(embedding_size=embedding_size, batch_size=batch_size)
 
         # Initialize language model
         self.language_model = MODEL_REGISTRY[llm_model]()
@@ -53,5 +50,3 @@ class WebCrawler:
                         self.crawl.remote(child_url, depth + 1, max_depth)
         except Exception as e:
             print(f"Error crawling {url}: {str(e)}")
-
-

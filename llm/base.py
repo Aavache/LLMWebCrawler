@@ -24,9 +24,7 @@ class BaseLanguageModel:
         elif self.embedding_aggr_fn == "max":
             embedding_aggr = embeddings.max(dim=dim)
         else:
-            raise NotImplementedError(
-                "The embedding aggregation function `{self.embedding_aggr_fn}` is not allowed"
-            )
+            raise NotImplementedError("The embedding aggregation function `{self.embedding_aggr_fn}` is not allowed")
         return embedding_aggr
 
     def text_to_embedding(self, text):

@@ -1,1 +1,1 @@
-from api.models.crawl import * # noqa
+from api.models.crawl import *  # noqa

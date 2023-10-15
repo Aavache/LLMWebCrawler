@@ -1,1 +1,1 @@
-from api.utils.crawl import * # noqa
+from api.utils.crawl import *  # noqa

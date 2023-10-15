@@ -1,4 +1,5 @@
 import ray
+
 from task.crawler import WebCrawler
 
 
