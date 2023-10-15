@@ -12,6 +12,10 @@ class BaseLanguageModel:
     def max_token_length(self):
         raise NotImplementedError
 
+    @property
+    def embed_size(self):
+        raise NotImplementedError
+
     def _chunk_tokens(self, tokens):
         chunks = []
         for i in range(0, len(tokens), self.max_token_length):

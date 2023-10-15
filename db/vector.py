@@ -8,10 +8,10 @@ from db.constants import (COLLECTION_NAME, DB_COLS, INDEX_PARAM, MILVUS_HOST,
 class VectorDBClient:
     """Vector database client."""
 
-    def __init__(self, embedding_size: int, batch_size: int):
+    def __init__(self, embed_size: int, batch_size: int):
         # Unpack parameters
         self.batch_size = batch_size
-        self.embedding_size = embedding_size
+        self.embed_size = embed_size
 
         self._setup_db_connection()
 
@@ -25,7 +25,7 @@ class VectorDBClient:
         self.schema = [
             FieldSchema(name=DB_COLS["URL"], dtype=DataType.VARCHAR, is_primary=True, max_length=1024),
             FieldSchema(name=DB_COLS["TEXT"], dtype=DataType.VARCHAR, max_length=1024),
-            FieldSchema(name=DB_COLS["EMBED"], dtype=DataType.FLOAT_VECTOR, dim=self.embedding_size),
+            FieldSchema(name=DB_COLS["EMBED"], dtype=DataType.FLOAT_VECTOR, dim=self.embed_size),
         ]
         if not utility.has_collection(COLLECTION_NAME):
             col_schema = CollectionSchema(fields=self.schema)

@@ -12,15 +12,14 @@ class WebCrawler:
 
     def __init__(
         self,
-        llm_model: str,
-        embedding_size: int,
-        batch_size: int,
+        llm_model: str = "bert-base-uncased",
+        batch_size: int = 32,
     ):
-        # Initialize Milvus connection
-        self.db_client = VectorDBClient(embedding_size=embedding_size, batch_size=batch_size)
-
         # Initialize language model
-        self.language_model = MODEL_REGISTRY[llm_model]()
+        self.llm_model = MODEL_REGISTRY[llm_model]()
+
+        # Initialize Milvus connection
+        self.db_client = VectorDBClient(embed_size=self.llm_model.embed_size, batch_size=batch_size)
 
     def crawl(self, url, depth, max_depth):
         if depth > max_depth:
@@ -37,7 +36,7 @@ class WebCrawler:
                 text = soup.get_text()
 
                 # Generate BERT embeddings for the text
-                embeddings = self.language_model.text_to_embedding(text)
+                embeddings = self.llm_model.text_to_embedding(text)
 
                 # Insert data into Milvus
                 self.db_client.insert(url, text, embeddings)

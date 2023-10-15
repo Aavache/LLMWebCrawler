@@ -1,3 +1,3 @@
-from llm.bert import BaseLanguageModel
+from llm.bert import BertLanguageModel
 
-MODEL_REGISTRY = {"bert-base-uncased": BaseLanguageModel}
+MODEL_REGISTRY = {"bert-base-uncased": BertLanguageModel}
