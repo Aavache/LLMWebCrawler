@@ -36,6 +36,8 @@ tmux new -s milvus
 milvus-server
 ```
 
+Take a look under `scripts/` to see some of the basic requests to Milvus.
+
 ## Docker compose
 
 You can also use the official `docker compose` template:
@@ -87,6 +89,19 @@ ray start
 
 The worker node does not need to have the code implementation as the head node will serialize and submit the arguments and implementation to the workers.
 
+
+## Future features
+
+The current implementation is a PoC. Many improvements can be made:
+* API get entrypoint to search given text.
+* Optimize search and API.
+* Storing more features in the vector DB.
+* Adding new LLMs and new chunking strategies with popular libraries, e.g. [LangChain](https://www.langchain.com/).
+
+
+## Contributing
+
+All issues and PRs are welcome 🙂.
 
 ## Reference
 
